@@ -80,8 +80,8 @@ parse = (source, code) ->
   language = get_language source
   has_code = docs_text = code_text = ''
 
-  save = (docs, code) ->
-    sections.push docs_text: docs, code_text: code
+  save = (ui-docs, code) ->
+    sections.push docs_text: ui-docs, code_text: code
 
   for line in lines
     if line.match(language.comment_matcher) and not line.match(language.comment_filter)
@@ -196,7 +196,7 @@ get_language = (source) -> languages[path.extname(source)]
 # Compute the destination HTML path for an input source file path. If the source
 # is `lib/example.coffee`, the HTML will be at `docs/example.html`
 destination = (filepath) ->
-  'docs/' + path.basename(filepath, path.extname(filepath)) + '.html'
+  'ui-docs/' + path.basename(filepath, path.extname(filepath)) + '.html'
 
 # Ensure that the destination directory exists.
 ensure_directory = (dir, callback) ->
@@ -233,8 +233,8 @@ highlight_end   = '</pre></div>'
 # For each source file passed in as an argument, generate the documentation.
 sources = process.ARGV.sort()
 if sources.length
-  ensure_directory 'docs', ->
-    fs.writeFile 'docs/docco.css', docco_styles
+  ensure_directory 'ui-docs', ->
+    fs.writeFile 'ui-docs/docco.css', docco_styles
     files = sources.slice(0)
     next_file = -> generate_documentation files.shift(), next_file if files.length
     next_file()
